@@ -14,6 +14,17 @@ const initialPosition = { x: 240, y: 210 }
 
 let snake = [initialPosition]
 
+const initialSpeed = 300   // atraso inicial em ms (mais lento)
+const minSpeed = 80        // limite mínimo em ms (velocidade máxima)
+const pointsStep = 50      // a cada quantos pontos acelera
+const speedStep = 25       // quantos ms reduz por faixa de pontos
+
+const getGameSpeed = () => {
+    const currentScore = +score.innerText
+    const steps = Math.floor(currentScore / pointsStep)
+    return Math.max(minSpeed, initialSpeed - steps * speedStep)
+}
+
 const incrementScore = () => {
     score.innerText = parseInt(score.innerText) + 10
 }
@@ -158,7 +169,7 @@ const gameLoop = () => {
 
     loopId = setTimeout(() => {
         gameLoop()
-    }, 300)
+    }, getGameSpeed())
 
 }
 
